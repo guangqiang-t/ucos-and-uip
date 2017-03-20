@@ -20,9 +20,9 @@ int main (void)
 	LEDInit();
 //	SysTickConfig();
 	NVIC_Config();
-	pwm_config(1000);
-//	sync_pwm(led_w,20);
-	sync_pwm(led_r,4);
+	pwm_config(100);
+	sync_pwm(led_w,12);
+	sync_pwm(led_g,12);
 	tcp_server_init();
 	
 	

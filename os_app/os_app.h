@@ -11,7 +11,7 @@ extern OS_STK Start_Task_STK[Start_STK_Size];
 
 //Eth process
 #define Eth_Task_PRIO          	  15
-#define Eth_STK_Size            	1536
+#define Eth_STK_Size            	(1024*2)
 extern OS_STK Eth_Task_STK[Eth_STK_Size];
 
 // led0 task

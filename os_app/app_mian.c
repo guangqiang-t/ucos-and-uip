@@ -71,8 +71,8 @@ void Eth_task(void *pdata)
 			//send data
 			strcpy((char *)tcp_sever_send_data_buff,"STM32Reply");
 			sprintf((char *)&tcp_sever_send_data_buff[10],"%.3d",cnt++);
-			sync_pwm(led_r,i);
-			i+=25;
+			sync_pwm(led_w,i);
+			i+=1;
 			if(i>50)i=0;
 			g_tcp_server_state|=(1<<5);// To Send
 			g_tcp_server_state&=~(1<<6);

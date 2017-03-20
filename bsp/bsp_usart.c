@@ -103,7 +103,7 @@ void print_int(int32_t num)
 				flag=1;
 			}
 		}
-		if(flag)
+		else
 		{
 			print_byte(n[i]);
 		}
