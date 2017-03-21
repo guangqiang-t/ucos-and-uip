@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void SysTickConfig(void);
-void DelayMs(uint32_t nms);
-void DelayUs(uint32_t nus);
+void systick_config(void);
+void delay_ms(uint32_t nms);
+void delay_us(uint32_t nus);
 
 #endif

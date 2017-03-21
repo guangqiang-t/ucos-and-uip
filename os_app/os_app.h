@@ -14,21 +14,16 @@ extern OS_STK Start_Task_STK[Start_STK_Size];
 #define Eth_STK_Size            	(1024*2)
 extern OS_STK Eth_Task_STK[Eth_STK_Size];
 
-// led0 task
-#define LED0_Task_PRIO          	13 
-#define LED0_STK_Size            	128
-extern  OS_STK LED0_Task_STK[LED0_STK_Size];
+// status led task
+#define LED_Task_PRIO          		3 
+#define LED_STK_Size            	64
+extern  OS_STK LED_Task_STK[LED_STK_Size];
 
-//led1 task
-#define LED1_Task_PRIO          	11
-#define LED1_STK_Size            	128
-extern OS_STK LED1_Task_STK[LED1_STK_Size];
 
 extern int8_t EthSendBuffer[UIP_CONF_BUFFER_SIZE];
 
 void start_task(void *pdata);
-void Eth_task(void *pdata);
-void LED0_task(void *pdata);
-void LED1_task(void *pdata);
+void eth_task(void *pdata);
+void status_led_task(void * pdata);
 
 #endif /*os_app_H*/

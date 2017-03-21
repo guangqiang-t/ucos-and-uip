@@ -5,7 +5,7 @@
 static uint8_t  fac_us=0;	
 static uint16_t fac_ms=0;	
 
-void SysTickConfig(void)
+void systick_config(void)
 {
 
 	uint32_t RELOAD=0;
@@ -21,7 +21,7 @@ void SysTickConfig(void)
 	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
 }
 
-void DelayUs(uint32_t nus)
+void delay_us(uint32_t nus)
 {		
 	uint32_t temp=0;
 	uint32_t VAL_Prev=0;
@@ -48,11 +48,10 @@ void DelayUs(uint32_t nus)
 			VAL_Prev = VAL_Now; 
 			if(VAL_cnt >= temp)  break;
 		}
-	};
-
+	}
 }
 
-void DelayMs(uint32_t nms)
+void delay_ms(uint32_t nms)
 {
 	if(OSRunning == 1) // os is running
 	{
@@ -62,6 +61,6 @@ void DelayMs(uint32_t nms)
 		}
 		nms %= fac_ms;
 	}
-	DelayUs((uint32_t)(nms*1000));
+	delay_us((uint32_t)(nms*1000));
 }
 

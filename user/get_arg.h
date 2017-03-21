@@ -16,11 +16,11 @@
 #define USING_SIGN //+ - 
 #define DEBUG_LOG
 
-//#ifdef DEBUG_LOG
-//	#define LOG(x) print_str(x)
-//#else
-//	#define LOG(x) 
-//#endif
+#ifdef DEBUG_LOG
+	#define LOG(x) print_str(x)
+#else
+	#define LOG(x) 
+#endif
 
 extern int8_t tst[];
 extern int16_t g_arg[MAX_RAW][MAX_COLUMN];

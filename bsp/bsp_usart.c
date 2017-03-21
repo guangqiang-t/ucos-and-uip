@@ -7,7 +7,7 @@
   * @param None 
   * @retval None
   */
-void USART1_Config(void)
+void usart1_config(void)
 {
 	
 	 GPIO_InitTypeDef GPIO_InitStructure;

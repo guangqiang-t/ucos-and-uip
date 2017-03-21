@@ -7,7 +7,7 @@ int8_t tst[]={"x10,111,-,-12,13,14,15,16,17,18,19,x156a,1ab,abb,-11111;20,21,22,
 
 static uint8_t _get_type(char ch);
 static uint8_t _char2int(char ch);
-#ifdef DEBUG
+#ifdef DEBUG_LOG
 void put_all_args(void);
 #endif
 

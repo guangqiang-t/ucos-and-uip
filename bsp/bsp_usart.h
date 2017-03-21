@@ -4,7 +4,7 @@
 //#include "stdio.h"
 #include "stdint.h"
 
-extern void USART1_Config(void);
+extern void usart1_config(void);
 extern void print_byte(uint8_t ch);
 extern void print_str(const uint8_t *p);
 extern void print_n_byte(const uint8_t *p,uint16_t len);

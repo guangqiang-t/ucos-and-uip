@@ -2,21 +2,17 @@
 #include "uip_user_call.h"
 #include "uip.h"
 #include "get_arg.h"
-
+#include "bsp_systick.h"
 
 #ifdef DEBUG 
-	#define LOG(x) print_str(x)
+	#define APP_LOG(x) print_str(x)
 #else
-	#define LOG(x) 
+	#define APP_LOG(x) 
 #endif
 
 OS_STK Start_Task_STK[Start_STK_Size];
+OS_STK LED_Task_STK[LED_STK_Size];
 OS_STK Eth_Task_STK[Eth_STK_Size];
-OS_STK LED0_Task_STK[LED0_STK_Size];
-OS_STK LED1_Task_STK[LED1_STK_Size];
-
-OS_STK test_stk[256];
-void test(void * pdata);
 
 OS_EVENT *sig;
 INT8U err=OS_ERR_NONE;
@@ -39,7 +35,7 @@ void start_task(void * pdata)
 	pdata = pdata;
 	
 	OS_ENTER_CRITICAL();
-	SysTickConfig();
+	systick_config();
 	OS_EXIT_CRITICAL(); 
 	
 #if OS_TASK_STAT_EN > 0
@@ -47,18 +43,34 @@ void start_task(void * pdata)
 #endif
 		
 	OS_ENTER_CRITICAL();
-	OSTaskCreate(Eth_task,  (void *)0, (OS_STK *)&Eth_Task_STK[Eth_STK_Size-1],Eth_Task_PRIO);
-	OSTaskCreate(LED0_task, (void *)0, (OS_STK *)&LED0_Task_STK[LED0_STK_Size-1], LED0_Task_PRIO);
-	OSTaskCreate(LED1_task, (void *)0, (OS_STK *)&LED1_Task_STK[LED1_STK_Size-1], LED1_Task_PRIO);
-	OSTaskCreate(test, (void *)0, (OS_STK *)&test_stk[255], 7);
-	LOG(("\r\n start task creat success \r\n"));
+	OSTaskCreate(eth_task,  (void *)0, (OS_STK *)&Eth_Task_STK[Eth_STK_Size-1],Eth_Task_PRIO);
+	OSTaskCreate(status_led_task, (void *)0, (OS_STK *)&LED_Task_STK[LED_STK_Size-1], LED_Task_PRIO);
+	APP_LOG(("\r\n start task creat success \r\n"));
 
 	OSTaskSuspend(Start_Task_PRIO);
 	OS_EXIT_CRITICAL(); 
 }
 
+/******************************************************************************
+* Function Name --> led0
+* Description   --> none
+* Input         --> *pdata: 
+* Output        --> none
+* Reaturn       --> none 
+******************************************************************************/
+void status_led_task(void * pdata)
+{
+	while(1)
+	{
+		led_on();
+		delay_ms(200);
+		led_off();
+		delay_ms(4800);
+	}
+}
 
-void Eth_task(void *pdata)
+
+void eth_task(void *pdata)
 {
 	uint8_t i=0;
 	#if 1
@@ -82,65 +94,7 @@ void Eth_task(void *pdata)
 	#endif
 }
 
-/******************************************************************************
-* Function Name --> led0
-* Description   --> none
-* Input         --> *pdata: 
-* Output        --> none
-* Reaturn       --> none 
-******************************************************************************/
-void LED0_task(void * pdata)
-{
-	uint8_t ui8_cnt=0;
-//	sig=OSSemCreate(0);
-	while(1)
-	{
-		//g_tcp_server_state|=(1<<5);
-		LEDON(3);
-		DelayMs(50);
-		LEDOFF(3);
-		DelayMs(1000);
-		ui8_cnt++;
-//		if(ui8_cnt==10)
-//		{
-//			ui8_cnt=0;
-//			OSSemPost(sig);
-//			printf("post\r\n");
-//		}
-	}
-}
-
-/******************************************************************************
-* Function Name --> led1
-* Description   --> none
-* Input         --> *pdata: 
-* Output        --> none
-* Reaturn       --> none 
-******************************************************************************/
-void LED1_task(void * pdata)
-{
-while(1)
-	{
-		LEDON(1);
-		DelayMs(50);
-		LEDOFF(1);
-		DelayMs(2500);
-		//OSSemPend(sig,0,&err);
-//		printf("get %d msg from task0\r\n",ui8_cnt1);
-	}
-}
 
 
-void test(void * pdata)
-{
-	while(1)
-	{
-		LEDON(2);
-		DelayMs(50);
-		LEDOFF(2);
-		DelayMs(4200);
-//		get_all_args((char *)tst,g_arg);
-//		put_all_args();
-	}
-}
+
 

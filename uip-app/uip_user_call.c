@@ -15,6 +15,13 @@
 #include "uip_arp.h"
 #include "os_app.h"
 
+
+#ifdef DEBUG 
+	#define UIP_CALL_LOG(x) print_str(x)
+#else
+	#define UIP_CALL_LOG(x) 
+#endif
+
 static	uint8_t i;
 static timer_typedef periodic_timer, arp_timer;
 
@@ -74,14 +81,10 @@ void tcp_server_init(void)
 		
 	uip_ipaddr(ipaddr, 255,255,255,0);            
 	uip_setnetmask(ipaddr); 
-#ifdef DEBUG
-	printf("ip init ok...\r\n");
-#endif
+	UIP_CALL_LOG("ip init ok...\r\n");
 	uip_listen(HTONS(8080)); 
-#ifdef DEBUG
-	uip_log("listen 8080 ...\r\n");
-#endif
-	   		    
+	UIP_CALL_LOG("listen 8080 ...\r\n");
+    
 }
 
 void uip_polling(void)
