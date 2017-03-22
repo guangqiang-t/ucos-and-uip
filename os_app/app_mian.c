@@ -3,6 +3,9 @@
 #include "uip.h"
 #include "get_arg.h"
 #include "bsp_systick.h"
+#include "stdio.h" //sprintf
+#include "stdlib.h"
+
 
 #ifdef DEBUG 
 	#define APP_LOG(x) print_str(x)
@@ -31,7 +34,6 @@ uint32_t cnt=0;
 void start_task(void * pdata)
 {
 
-	//printf("%d",OSIdleCtrMax);
 	pdata = pdata;
 	
 	OS_ENTER_CRITICAL();
@@ -80,17 +82,44 @@ void eth_task(void *pdata)
 		uip_polling();	
 		if(g_tcp_server_state&(1<<6))
 		{
+			print_str(tcp_sever_receive_data_buff);
+			sig_process();
 			//send data
 			strcpy((char *)tcp_sever_send_data_buff,"STM32Reply");
 			sprintf((char *)&tcp_sever_send_data_buff[10],"%.3d",cnt++);
-			sync_pwm(led_w,i);
-			i+=1;
+			sync_pwm(led_g,i);
+			i+=10;
 			if(i>50)i=0;
 			g_tcp_server_state|=(1<<5);// To Send
 			g_tcp_server_state&=~(1<<6);
 //			printf("@-%d\r\n",OSCPUUsage);
 		}
 	}
+	#endif
+}
+
+void sig_process(void)
+{
+	#if 1
+	
+	if(memcmp(tcp_sever_receive_data_buff,"SYS:LED:",8)==0)
+	{
+		APP_LOG("cmd is LED\r\n");
+		get_all_args(&tcp_sever_receive_data_buff[7],g_arg);
+		put_all_args();
+		print_arg("pwm is ",g_arg[0][0]);
+		if(g_arg[0][0] >= 0&& g_arg[0][0] <= 100)
+		{
+			sync_pwm(led_w,g_arg[0][0]);
+			memset(g_arg,0,(MAX_RAW*MAX_COLUMN));
+		}
+		else
+		{
+			//pwm error
+		}
+	}
+	
+	memset(tcp_sever_receive_data_buff,0,UIP_CONF_BUFFER_SIZE);
 	#endif
 }
 

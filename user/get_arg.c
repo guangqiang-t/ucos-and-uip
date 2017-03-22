@@ -1,19 +1,15 @@
 #include "get_arg.h"
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 int16_t g_arg[MAX_RAW][MAX_COLUMN]={0};
-int8_t tst[]={"x10,111,-,-12,13,14,15,16,17,18,19,x156a,1ab,abb,-11111;20,21,22,23,24,25,16;30"};
+//int8_t tst[]={"x10,111,-,-12,13,14,15,16,17,18,19,x156a,1ab,abb,-11111;20,21,22,23,24,25,16;30"};
 
-static uint8_t _get_type(char ch);
-static uint8_t _char2int(char ch);
-#ifdef DEBUG_LOG
-void put_all_args(void);
-#endif
+static uint8_t _get_type(int8_t ch);
+static uint8_t _char2int(int8_t ch);
 
 
-
-uint8_t _get_type(char ch)
+uint8_t _get_type(int8_t ch)
 {
 	if(ch>='0'&&ch<='9')
 	{
@@ -43,12 +39,12 @@ uint8_t _get_type(char ch)
 	}
 }
 
-uint8_t _char2int(char ch)
+uint8_t _char2int(int8_t ch)
 {
 	return (ch-48);
 }
 
-void get_all_args(char *src,int16_t (*dst)[MAX_COLUMN])
+void get_all_args(int8_t *src,int16_t (*dst)[MAX_COLUMN])
 {
 	uint8_t last_type=_IS_COMMA;
 	uint8_t current_type=_IS_NUMBER;
@@ -77,9 +73,8 @@ void get_all_args(char *src,int16_t (*dst)[MAX_COLUMN])
 					*(*(dst+a)+b++)=number*sign;
 					sign=1;
 				#else
-					*(*(dst+a)+b++)=number
+					*(*(dst+a)+b++)=number;
 				#endif
-					//LOG(("comma gen a number to [%d][%d]\r\n",a,b-1));
 					number=0;
 				}
 				break;
@@ -110,7 +105,6 @@ void get_all_args(char *src,int16_t (*dst)[MAX_COLUMN])
 				#else
 					*(*(dst+a)+b++)=number;	
 				#endif
-					//LOG(("end gen a number to [%d][%d]\r\n",a,b-1));
 					return;
 				}
 				break;

@@ -14,7 +14,7 @@ typedef unsigned short            uip_stats_t;
 /* 最大端口监听数 */
 #define UIP_CONF_MAX_LISTENPORTS  6	  
 /* uIP 缓存大小*/
-#define UIP_CONF_BUFFER_SIZE      128
+#define UIP_CONF_BUFFER_SIZE      96
 /* CPU字节顺序 */ 
 #define UIP_CONF_BYTE_ORDER       UIP_LITTLE_ENDIAN
 /* 日志开关	 */			

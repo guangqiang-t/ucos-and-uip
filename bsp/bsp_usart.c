@@ -2,6 +2,10 @@
 #include "stm32f10x.h"
 
 // #include "stdio.h"
+
+
+
+
 /**
   * @brief UART1  init  PA9 PA10
   * @param None 
@@ -41,13 +45,23 @@ void usart1_config(void)
 	 USART_Cmd(USART1, ENABLE); 
 }
 
+
+
+int fputc(int ch, FILE *f)
+{
+	while( USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET );
+  USART_SendData(USART1, (unsigned char) ch);
+  return (ch);
+}
+
+
 void print_byte(uint8_t ch)
 {
 	while( USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET );
 	USART_SendData(USART1, (uint8_t) ch);
 }
 
-void print_str(const uint8_t *p)
+void print_str(const int8_t *p)
 {
 	while(*p != 0)
 	{
@@ -56,7 +70,7 @@ void print_str(const uint8_t *p)
 	}
 }
 
-void print_n_byte(const uint8_t *p,uint16_t len)
+void print_n_byte(const int8_t *p,uint16_t len)
 {
 	while(len--)
 	{
@@ -73,11 +87,12 @@ void print_int(int32_t num)
 	
 	if(num==0)// num is 0
 	{
+		print_byte('0');
 		return;
 	}
-	if(num > 99999999 )
+	if(num > INT32_MAX )
 	{
-		print_str((const uint8_t*)"overflow\r\n");
+		print_str("int overflow\r\n");
 	}
 	else if(num < 0)//negtive
 	{
@@ -101,6 +116,7 @@ void print_int(int32_t num)
 			else
 			{	
 				flag=1;
+				print_byte(n[i]);
 			}
 		}
 		else
@@ -114,13 +130,13 @@ void print_int(int32_t num)
 {
 	int32_t int_f = (int32_t)(f*1000);
 	print_int(int_f);
-	print_str((const uint8_t*)".f3\r\n");
+	print_str((const int8_t*)".f3\r\n");
 }
 
-void print_arg(const uint8_t *p,int32_t val)
+void print_arg(const int8_t *p,int32_t val)
 {
 	print_str(p);
 	print_int(val);
-	print_str((const uint8_t*)"\r\n");
+	print_str((const int8_t*)"\r\n");
 } 
 

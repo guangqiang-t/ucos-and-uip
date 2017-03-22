@@ -11,7 +11,7 @@ extern OS_STK Start_Task_STK[Start_STK_Size];
 
 //Eth process
 #define Eth_Task_PRIO          	  15
-#define Eth_STK_Size            	(1024*2)
+#define Eth_STK_Size            	(1024*3)
 extern OS_STK Eth_Task_STK[Eth_STK_Size];
 
 // status led task
@@ -22,8 +22,11 @@ extern  OS_STK LED_Task_STK[LED_STK_Size];
 
 extern int8_t EthSendBuffer[UIP_CONF_BUFFER_SIZE];
 
-void start_task(void *pdata);
-void eth_task(void *pdata);
-void status_led_task(void * pdata);
+extern void start_task(void *pdata);
+extern void eth_task(void *pdata);
+extern void status_led_task(void * pdata);
+extern void sig_process(void);
+
+
 
 #endif /*os_app_H*/

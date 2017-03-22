@@ -11,9 +11,9 @@
 #define _IS_NAGATIVE		(5)		//-
 
 #define MAX_RAW					(8)		//a[MAX_RAW][MAX_COLUMN]
-#define MAX_COLUMN			(16)
+#define MAX_COLUMN			(8)
 
-#define USING_SIGN //+ - 
+//#define USING_SIGN //+ - 
 #define DEBUG_LOG
 
 #ifdef DEBUG_LOG
@@ -22,9 +22,9 @@
 	#define LOG(x) 
 #endif
 
-extern int8_t tst[];
+//extern int8_t tst[];
 extern int16_t g_arg[MAX_RAW][MAX_COLUMN];
-extern void get_all_args(char *src,int16_t (*dst)[MAX_COLUMN]);
+extern void get_all_args(int8_t *src,int16_t (*dst)[MAX_COLUMN]);
 
 #ifdef DEBUG_LOG
 extern void put_all_args(void);
