@@ -181,6 +181,7 @@ void tcp_sever_call(void)
 	{
 		StatePointer->textptr=tcp_sever_send_data_buff;
 		StatePointer->textlen=strlen((const char*)tcp_sever_send_data_buff);
+		memset(tcp_sever_send_data_buff,UIP_CONF_BUFFER_SIZE,0);
 		g_tcp_server_state&=~(1<<5);//清除标记
 	} 
 

@@ -18,8 +18,8 @@ int main (void)
 	led_init();
 	NVIC_Config();
 	pwm_config(100);
-	sync_pwm(led_w,12);
-	sync_pwm(led_g,12);
+	sync_pwm(led_w,0);
+	sync_pwm(motor,30);
 	tcp_server_init();
 
 	MAIN_LOG("system init ok\r\n");
