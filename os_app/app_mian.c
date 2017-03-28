@@ -73,17 +73,17 @@ void status_led_task(void * pdata)
 {
 	while(1)
 	{
+//		_74hc595_config(1);
 		led_on();
 		delay_ms(200);
 		led_off();
-		delay_ms(4800);
+		delay_ms(1800);
 	}
 }
 
 
 void eth_task(void *pdata)
 {
-	uint8_t i=0;
 	#if 1
 	while(1)
 	{
@@ -94,15 +94,8 @@ void eth_task(void *pdata)
 			print_str(tcp_sever_receive_data_buff);
 			sig_process();
 			//send data
-//			strcpy((char *)tcp_sever_send_data_buff,"STM32Reply");
-//			sprintf((char *)&tcp_sever_send_data_buff[10],"%.3d",cnt++);
-//			sync_pwm(led_g,i);
-//			i+=10;
-//			if(i>50)i=0;
-			print_arg("usage is ",OSCPUUsage);
 			g_tcp_server_state|=(1<<5);// To Send
 			g_tcp_server_state&=~(1<<6);
-//			printf("@-%d\r\n",OSCPUUsage);
 		}
 	}
 	#endif
@@ -110,6 +103,7 @@ void eth_task(void *pdata)
 
 void sig_process(void)
 {
+//	uint8_t i=0;
 	#if 1
 	
 	if(memcmp(tcp_sever_receive_data_buff,"SYS:LED:",8)==0)
@@ -135,11 +129,11 @@ void sig_process(void)
 	{
 		APP_LOG("cmd is MOTOR\r\n");
 		get_all_args(&tcp_sever_receive_data_buff[9],g_arg);
-		put_all_args();
+//		put_all_args();
 		print_arg("Motor pwm is ",g_arg[0][0]);
 		if(g_arg[0][0] >= 0&& g_arg[0][0] <= 100)
 		{
-			sync_pwm(motor,100-g_arg[0][0]); 
+			sync_pwm(motor,g_arg[0][0]); 
 			memset(g_arg,0,(MAX_RAW*MAX_COLUMN));
 			sig_process_status(RE_OK);
 		}
@@ -150,6 +144,78 @@ void sig_process(void)
 		}
 	}
 	
+		else if(memcmp(tcp_sever_receive_data_buff,"SYS:COLOR:",10)==0)
+	{
+		APP_LOG("cmd is COLOR\r\n");
+		get_all_args(&tcp_sever_receive_data_buff[9],g_arg);
+//		put_all_args();
+		print_arg("r pwm is ",g_arg[0][0]);print_arg("g pwm is ",g_arg[0][1]);print_arg("b pwm is ",g_arg[0][2]);
+		if(g_arg[0][0] >= 0 && g_arg[0][0] <= 255 && g_arg[0][1] >= 0 && g_arg[0][1] <= 255 && g_arg[0][2] >= 0 && g_arg[0][2] <= 255)
+		{
+			sync_pwm(led_r,g_arg[0][0]/3); 
+			sync_pwm(led_g,g_arg[0][1]/3);
+			sync_pwm(led_b,g_arg[0][2]/3);
+			
+			
+			memset(g_arg,0,(MAX_RAW*MAX_COLUMN));
+			sig_process_status(RE_OK);
+		}
+		else
+		{
+			//Motor pwm error
+			sig_process_status(RE_ERROR1);
+		}
+	}
+	
+	
+	else if(memcmp(tcp_sever_receive_data_buff,"SYS:RELAY_HK:",12)==0)
+	{
+		APP_LOG("cmd is HK\r\n");
+		get_all_args(&tcp_sever_receive_data_buff[1],g_arg);
+//		put_all_args();
+		print_arg("HK is ",g_arg[0][0]);
+		if(g_arg[0][0]==1)
+		{
+			sync_sw(HK,NO); 
+			memset(g_arg,0,(MAX_RAW*MAX_COLUMN));
+			sig_process_status(RE_OK);
+		}
+		else if(g_arg[0][0]==0)
+		{
+			sync_sw(HK,NC);
+			sig_process_status(RE_OK);
+		}
+		else
+		{
+//			HK value ERROR
+			sig_process_status(RE_ERROR1);
+		}
+	}
+	
+	
+		else if(memcmp(tcp_sever_receive_data_buff,"SYS:RELAY_LK:",12)==0)
+	{
+		APP_LOG("cmd is LK\r\n");
+		get_all_args(&tcp_sever_receive_data_buff[11],g_arg);
+//		put_all_args();
+		print_arg("LK is ",g_arg[0][0]);
+		if(g_arg[0][0]==1)
+		{
+			sync_sw(LK,NO); 
+			memset(g_arg,0,(MAX_RAW*MAX_COLUMN));
+			sig_process_status(RE_OK);
+		}
+		else if(g_arg[0][0]==0)
+		{
+			sync_sw(LK,NC);
+			sig_process_status(RE_OK);
+		}
+		else
+		{
+//			HK value ERROR
+			sig_process_status(RE_ERROR1);
+		}
+	}
 	
 	
 	memset(tcp_sever_receive_data_buff,0,UIP_CONF_BUFFER_SIZE);

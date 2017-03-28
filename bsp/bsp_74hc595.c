@@ -1,4 +1,5 @@
 #include "bsp_74hc595.h"
+#include "os_app.h"
 
 #define MSB (0x80)
 #define LSB (0x01)
@@ -23,7 +24,7 @@ static void _74hc595_send_char(uint8_t ch);
 #ifdef _SF_DELAY
 static volatile void delay(uint32_t t)
 {
-	while(t--);
+		while(t--);
 } 
 #endif
 
@@ -39,10 +40,10 @@ void _74hc595_config(uint8_t len)
 #ifdef _SF_DELAY
 		delay(100);
 #endif
-		SHCP_H;
+		SHCP_H; 
 	}
 	STCP_H;
-	
+	OE_H;
 }
 
 void _74hc595_send_char(uint8_t ch)
@@ -53,13 +54,17 @@ void _74hc595_send_char(uint8_t ch)
 		SHCP_L;
 		if(ch&MSB)
 		{
-			OE_H;
+			DS_H;
 		}
 		else
 		{
-			OE_L;
+			DS_L;
 		}
+#ifdef _SF_DELAY
+		delay(100);
+#endif	
 		SHCP_H;
+		ch <<= 1;
 #ifdef _SF_DELAY
 		delay(100);
 #endif	
@@ -69,10 +74,25 @@ void _74hc595_send_char(uint8_t ch)
 
 void _74hc595_send_n_char(const uint8_t *pdata,uint8_t n)
 {
+	OS_ENTER_CRITICAL();
 	STCP_L;
+	OE_L;
+#ifdef _SF_DELAY
+		delay(100);
+#endif
 	while(n--)
 	{
 		_74hc595_send_char(*pdata++);
 	}
+#ifdef _SF_DELAY
+		delay(100);
+#endif
+	OE_H;
 	STCP_H;
+#ifdef _SF_DELAY
+		delay(100);
+#endif
+	STCP_L;
+	OE_L;
+	OS_EXIT_CRITICAL(); 
 }

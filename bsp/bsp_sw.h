@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include "stm32f10x.h"
 
-//extern enum sw;
-//extern enum sw_value;
+enum sw {HK=1,LK=2};
+enum sw_value {NO=1,NC=0};
 
 void sw_config(void);
 void sync_sw(int32_t sw ,int32_t sw_value);

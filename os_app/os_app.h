@@ -20,6 +20,8 @@ extern OS_STK Eth_Task_STK[Eth_STK_Size];
 extern  OS_STK LED_Task_STK[LED_STK_Size];
 
 
+extern volatile OS_CPU_SR cpu_sr;
+
 extern int8_t EthSendBuffer[UIP_CONF_BUFFER_SIZE];
 
 extern void start_task(void *pdata);

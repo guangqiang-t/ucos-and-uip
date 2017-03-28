@@ -85,7 +85,7 @@ void sync_pwm(int32_t pwm_ctrl,uint8_t p_pwm)
 	switch(pwm_ctrl)
 	{
 		case motor:
-			TIM_SetCompare1(TIM1,pwm);
+			TIM_SetCompare1(TIM1,pwm_freq-pwm);
 			break;
 		case led_w:
 			TIM_SetCompare4(TIM1,pwm);
@@ -94,10 +94,10 @@ void sync_pwm(int32_t pwm_ctrl,uint8_t p_pwm)
 			TIM_SetCompare2(TIM2,pwm);
 			break;
 		case led_r:
-			TIM_SetCompare3(TIM2,pwm);
+			TIM_SetCompare4(TIM2,pwm);
 			break;
 		case led_b:
-			TIM_SetCompare4(TIM2,pwm);
+			TIM_SetCompare3(TIM2,pwm);
 			break;
 		default:break;
 	}

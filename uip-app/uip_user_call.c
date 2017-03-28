@@ -243,6 +243,7 @@ void tcp_server_senddata(void)
 //	StatePointer->textptr : 发送的数据包缓冲区指针
 //	StatePointer->textlen ：数据包的大小（单位字节）		   
 	if(StatePointer->textlen>0)uip_send(StatePointer->textptr, StatePointer->textlen);//发送TCP数据包	 
+	strcpy((char *)tcp_sever_send_data_buff,"ERROR_CMD");
 }
 
 
