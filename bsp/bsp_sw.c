@@ -29,11 +29,11 @@ void sync_sw(int32_t sw ,int32_t sw_value)
 		{
 			if(sw_value==NO)
 			{
-				GPIO_SetBits(GPIOA,GPIO_Pin_12);
+				GPIO_SetBits(GPIOB,GPIO_Pin_5);
 			}
 			else if(sw_value==NC)
 			{
-				GPIO_ResetBits(GPIOA,GPIO_Pin_12);
+				GPIO_ResetBits(GPIOB,GPIO_Pin_5);
 			}
 			break;
 		}
@@ -41,11 +41,11 @@ void sync_sw(int32_t sw ,int32_t sw_value)
 		{
 			if(sw_value==NO)
 			{
-				GPIO_SetBits(GPIOB,GPIO_Pin_5);
+				GPIO_SetBits(GPIOA,GPIO_Pin_12);
 			}
 			else if(sw_value==NC)
 			{
-				GPIO_ResetBits(GPIOB,GPIO_Pin_5);
+				GPIO_ResetBits(GPIOA,GPIO_Pin_12);
 			}
 			break;
 		}

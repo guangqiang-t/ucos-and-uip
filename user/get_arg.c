@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 int16_t g_arg[MAX_RAW][MAX_COLUMN]={0};
-//int8_t tst[]={"x10,111,-,-12,13,14,15,16,17,18,19,x156a,1ab,abb,-11111;20,21,22,23,24,25,16;30"};
 
 static uint8_t _get_type(int8_t ch);
 static uint8_t _char2int(int8_t ch);
@@ -133,7 +132,7 @@ void get_all_args(int8_t *src,int16_t (*dst)[MAX_COLUMN])
 	}
 }
 
-#ifdef DEBUG
+#ifdef DEBUG_LOG
 void put_all_args(void)
 {
 	uint8_t a,b;

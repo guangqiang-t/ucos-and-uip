@@ -10,5 +10,6 @@
 #include "bsp_sw.h"
 #include "bsp_74hc595.h"
 #include "bsp_logic.h"
+#include "bsp_temp.h"
 
 #endif

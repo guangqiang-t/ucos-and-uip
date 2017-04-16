@@ -1,6 +1,6 @@
 #include "bsp_usart.h"
 #include "stm32f10x.h"
-
+#include "os_app.h"
 // #include "stdio.h"
 
 
@@ -63,11 +63,13 @@ void print_byte(uint8_t ch)
 
 void print_str(const int8_t *p)
 {
+//	OS_ENTER_CRITICAL();
 	while(*p != 0)
 	{
 		while( USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET );
 		USART_SendData(USART1, (uint8_t) *p++);
 	}
+//	OS_EXIT_CRITICAL(); 
 }
 
 void print_n_byte(const int8_t *p,uint16_t len)
@@ -81,10 +83,12 @@ void print_n_byte(const int8_t *p,uint16_t len)
 
 void print_int(int32_t num)
 {
+	
 	uint8_t flag=0;// first no-zero flag
 	uint8_t i=0;
 	uint8_t n[8]={"00000000"};
-	
+//	OS_ENTER_CRITICAL();
+
 	if(num==0)// num is 0
 	{
 		print_byte('0');
@@ -92,7 +96,7 @@ void print_int(int32_t num)
 	}
 	if(num > INT32_MAX )
 	{
-		print_str("int overflow\r\n");
+		print_str((const int8_t *)"int overflow\r\n");
 	}
 	else if(num < 0)//negtive
 	{
@@ -124,6 +128,7 @@ void print_int(int32_t num)
 			print_byte(n[i]);
 		}
 	}
+//	OS_EXIT_CRITICAL(); 
 }
 
  void print_float(float f)
@@ -135,8 +140,10 @@ void print_int(int32_t num)
 
 void print_arg(const int8_t *p,int32_t val)
 {
+//	OS_ENTER_CRITICAL();
 	print_str(p);
 	print_int(val);
 	print_str((const int8_t*)"\r\n");
+//	OS_EXIT_CRITICAL(); 
 } 
 

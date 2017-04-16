@@ -11,7 +11,8 @@ void logic_config(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;		          
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-//	GPIO_SetBits(GPIOB,GPIO_Pin_8);
+	GPIO_SetBits(GPIOB,GPIO_Pin_12);
+	GPIO_ResetBits(GPIOB,GPIO_Pin_13|GPIO_Pin_14);
 }
 
 void sync_logic(const uint8_t *dat,uint8_t len)

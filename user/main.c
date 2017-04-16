@@ -14,8 +14,6 @@
 
 int main (void)
 {
-	uint8_t aa[8]={1,2,3,4,5,6,7,255};
-	uint8_t *p=aa;
 
 	usart1_config();
 	led_init();
@@ -23,15 +21,16 @@ int main (void)
 	logic_config();
 
 	sw_config();
-	pwm_config(100);
+	pwm_config(200);
 	sync_pwm(led_w,0);
 	sync_pwm(motor,0);
 	sync_pwm(led_g,0);
 	sync_pwm(led_r,0);
 	sync_pwm(led_b,0);
-	
-	_74hc595_send_n_char(p,3);
+		
 	tcp_server_init();
+
+	internal_temp_config();
 
 	MAIN_LOG("system init ok\r\n");
 	

@@ -349,7 +349,7 @@
             <uSurpInc>0</uSurpInc>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER,STM32F10X_MD,DEBUG</Define>
+              <Define>USE_STDPERIPH_DRIVER,STM32F10X_MD</Define>
               <Undefine></Undefine>
               <IncludePath>..\startup;..\cmsis\CoreSupport;..\cmsis\DeviceSupport\ST\STM32F10x;..\library\inc;..\library\src;..\bsp;..\os\config;..\os\core;..\os\cpu;..\os\ports;..\os\lib;..\os_app;..\uip-1.0\uip;..\uip-app;..\user</IncludePath>
             </VariousControls>
@@ -452,6 +452,16 @@
               <FileType>1</FileType>
               <FilePath>..\library\src\stm32f10x_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\library\src\stm32f10x_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\library\src\stm32f10x_dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -506,6 +516,11 @@
               <FileName>bsp_logic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\bsp_logic.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_temp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\bsp_temp.c</FilePath>
             </File>
           </Files>
         </Group>
