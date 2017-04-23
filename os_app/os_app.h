@@ -11,16 +11,16 @@ extern OS_STK Start_Task_STK[Start_STK_Size];
 
 //Eth process
 #define Eth_Task_PRIO          	  15
-#define Eth_STK_Size            	(1536)
+#define Eth_STK_Size            	2048
 extern OS_STK Eth_Task_STK[Eth_STK_Size];
 
 // status led task
-#define LED_Task_PRIO          		3 
+#define LED_Task_PRIO          		9 
 #define LED_STK_Size            	64
 extern  OS_STK LED_Task_STK[LED_STK_Size];
 
 #define Sig_Pro_Task_PRIO          7 
-#define Sig_Pro_STK_Size          512
+#define Sig_Pro_STK_Size          1024
 extern  OS_STK Sig_Pro_Task_STK[Sig_Pro_STK_Size];
 
 

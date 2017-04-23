@@ -101,7 +101,7 @@ void eth_task(void *pdata)
 		uip_polling();	
 		if(g_tcp_server_state&(1<<6))
 		{
-			print_str(tcp_sever_receive_data_buff);
+//			print_str(tcp_sever_receive_data_buff);
 			//
 			OSSemPost(sig_msg_to_process);
 			//sig_process();
@@ -131,7 +131,7 @@ void sig_process_task(void *pdata)
 			APP_LOG("cmd is LED\r\n");
 			get_all_args(&tcp_sever_receive_data_buff[8],g_arg);
 			put_all_args();
-			print_arg("Led pwm is ",g_arg[0][0]);
+//			print_arg("Led pwm is ",g_arg[0][0]);
 			if(g_arg[0][0] >= 0&& g_arg[0][0] <= 100)
 			{
 				sync_pwm(led_w,g_arg[0][0]);
@@ -151,7 +151,7 @@ void sig_process_task(void *pdata)
 		{
 			APP_LOG("cmd is MOTOR\r\n");
 			get_all_args(&tcp_sever_receive_data_buff[10],g_arg);
-			print_arg("Motor pwm is ",g_arg[0][0]);
+//			print_arg("Motor pwm is ",g_arg[0][0]);
 			if(g_arg[0][0] >= 0&& g_arg[0][0] <= 100)
 			{
 				sync_pwm(motor,g_arg[0][0]); 
@@ -171,7 +171,7 @@ void sig_process_task(void *pdata)
 			APP_LOG("cmd is COLOR\r\n");
 			get_all_args(&tcp_sever_receive_data_buff[10],g_arg);
 	//		put_all_args();
-			print_arg("r pwm is ",g_arg[0][0]);print_arg("g pwm is ",g_arg[0][1]);print_arg("b pwm is ",g_arg[0][2]);
+//			print_arg("r pwm is ",g_arg[0][0]);print_arg("g pwm is ",g_arg[0][1]);print_arg("b pwm is ",g_arg[0][2]);
 			if(g_arg[0][0] >= 0 && g_arg[0][0] <= 255 && g_arg[0][1] >= 0 && g_arg[0][1] <= 255 && g_arg[0][2] >= 0 && g_arg[0][2] <= 255)
 			{
 				sync_pwm(led_r,g_arg[0][0]/3); 
@@ -196,7 +196,7 @@ void sig_process_task(void *pdata)
 			APP_LOG("cmd is HK\r\n");
 			get_all_args(&tcp_sever_receive_data_buff[13],g_arg);
 	//		put_all_args();
-			print_arg("HK is ",g_arg[0][0]);
+//			print_arg("HK is ",g_arg[0][0]);
 			if(g_arg[0][0]==1)
 			{
 				sync_sw(HK,NO); 
@@ -221,7 +221,7 @@ void sig_process_task(void *pdata)
 			APP_LOG("cmd is LK\r\n");
 			get_all_args(&tcp_sever_receive_data_buff[13],g_arg);
 	//		put_all_args();
-			print_arg("LK is ",g_arg[0][0]);
+//			print_arg("LK is ",g_arg[0][0]);
 			if(g_arg[0][0]==1)
 			{
 				sync_sw(LK,NO); 
@@ -262,9 +262,11 @@ void sig_process_task(void *pdata)
 		
 		else if(memcmp(tcp_sever_receive_data_buff,"SYS:TEMP?:",9)==0)
 		{
+			OS_ENTER_CRITICAL();
 			g_temp=get_temp();
 			tcp_sever_receive_data_buff[8]='=';
 			sig_process_status(RE_TEMP);
+			OS_EXIT_CRITICAL();
 		}
 		
 		#else

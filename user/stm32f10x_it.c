@@ -64,7 +64,7 @@ void HardFault_Handler(void)
   while (1)
   {
   }
-}
+} 
 
 /**
   * @brief  This function handles Memory Manage exception.
